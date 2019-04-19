@@ -1,0 +1,43 @@
+{
+  "name": "vue-component-builder",
+  "version": "1.0.1",
+  "description": "build vue component",
+  "bin": "src/bin.js",
+  "main": "src/builder.js",
+  "scripts": {
+    "test": "jest test/*.test.js",
+    "cli:test": "node src/bin.js -c test/fixtures/vue-component.config.js"
+  },
+  "author": "Mora <qiuzhongleiabc@126.com>",
+  "license": "ISC",
+  "engines": {
+    "node": ">=8.6.0"
+  },
+  "dependencies": {
+    "@babel/core": "~7.4.3",
+    "@babel/plugin-proposal-class-properties": "~7.4.0",
+    "@babel/plugin-syntax-dynamic-import": "~7.2.0",
+    "@babel/plugin-transform-runtime": "~7.4.3",
+    "@babel/preset-env": "~7.4.3",
+    "async": "~2.6.2",
+    "autoprefixer": "~9.5.1",
+    "mora-scripts": "~1.6.40",
+    "node-sass": "~4.11.0",
+    "rollup": "~1.10.0",
+    "rollup-plugin-babel": "~4.3.2",
+    "rollup-plugin-commonjs": "~9.3.4",
+    "rollup-plugin-node-resolve": "~4.2.3",
+    "rollup-plugin-postcss": "~2.0.3",
+    "rollup-plugin-vue": "~5.0.0",
+    "vue-template-compiler": "~2.6.10"
+  },
+  "devDependencies": {
+    "@babel/runtime": "~7.4.3",
+    "core-js": "~2.6.5",
+    "jest": "~24.7.1"
+  },
+  "peerDependencies": {
+    "@babel/runtime": "7",
+    "core-js": "2"
+  }
+}
