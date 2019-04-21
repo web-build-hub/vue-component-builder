@@ -16,7 +16,15 @@ module.exports = {
     { name: 'swipe', entry: 'path/to/swipe.js' },
     { name: 'tab', entry: 'path/to/tab.js' },
     // ...
-  ]
+  ],
+  // 是否在 js 中 require 对应的 css 文件
+  requireCss: true,
+  // rollup 的 output 配置（可选）
+  output: {},
+  // 生成动态 rollup 配置（可选）
+  rollup(entry, name, outDir, opts) {
+    return {...}
+  }
 }
 
 ```

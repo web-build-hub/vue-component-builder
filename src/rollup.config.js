@@ -53,6 +53,7 @@ module.exports = function createConfig(
           autoprefixer()
         ]
       }),
-    ]
+    ],
+    ...(opts.rollup ? opts.rollup(...arguments) : {})
   }
 }

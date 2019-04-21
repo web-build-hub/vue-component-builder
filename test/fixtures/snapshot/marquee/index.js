@@ -1,4 +1,5 @@
 'use strict';
+require('./index.css');
 
 Object.defineProperty(exports, '__esModule', { value: true });
 
