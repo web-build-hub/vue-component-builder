@@ -8,7 +8,7 @@ Marquee.install = function(Vue) {
   Vue.component(Marquee.name, Marquee)
 }
 
-export default Marquee
+export {Marquee}
 
 export class Test {
   static a = []

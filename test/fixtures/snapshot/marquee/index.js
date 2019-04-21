@@ -1,14 +1,20 @@
-import _regeneratorRuntime from '@babel/runtime/regenerator';
-import 'regenerator-runtime/runtime';
-import _asyncToGenerator from '@babel/runtime/helpers/esm/asyncToGenerator';
-import _classCallCheck from '@babel/runtime/helpers/esm/classCallCheck';
-import _createClass from '@babel/runtime/helpers/esm/createClass';
-import _defineProperty from '@babel/runtime/helpers/esm/defineProperty';
-import 'core-js/modules/es6.function.name';
-import 'core-js/modules/es6.array.is-array';
-import 'core-js/modules/es6.number.constructor';
-import 'core-js/modules/es6.array.index-of';
-import __vue_normalize__ from 'vue-runtime-helpers/dist/normalize-component.js';
+'use strict';
+
+Object.defineProperty(exports, '__esModule', { value: true });
+
+function _interopDefault (ex) { return (ex && (typeof ex === 'object') && 'default' in ex) ? ex['default'] : ex; }
+
+var _regeneratorRuntime = _interopDefault(require('@babel/runtime/regenerator'));
+require('regenerator-runtime/runtime');
+var _asyncToGenerator = _interopDefault(require('@babel/runtime/helpers/esm/asyncToGenerator'));
+var _classCallCheck = _interopDefault(require('@babel/runtime/helpers/esm/classCallCheck'));
+var _createClass = _interopDefault(require('@babel/runtime/helpers/esm/createClass'));
+var _defineProperty = _interopDefault(require('@babel/runtime/helpers/esm/defineProperty'));
+require('core-js/modules/es6.function.name');
+require('core-js/modules/es6.array.is-array');
+require('core-js/modules/es6.number.constructor');
+require('core-js/modules/es6.array.index-of');
+var __vue_normalize__ = _interopDefault(require('vue-runtime-helpers/dist/normalize-component.js'));
 
 var script = {
   name: 'marquee',
@@ -168,7 +174,7 @@ __vue_render__._withStripped = true;
     undefined
   );
 
-import('core-js').then(function (d) {
+Promise.resolve(require('core-js')).then(function (d) {
   console.log(d);
 });
 
@@ -225,5 +231,5 @@ function () {
 
 _defineProperty(Test, "a", []);
 
-export default Marquee;
-export { Test };
+exports.Marquee = Marquee;
+exports.Test = Test;

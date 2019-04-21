@@ -7,7 +7,8 @@ const createConfig = require('./rollup.config')
 
 module.exports = function (rootDir, configFile, cb) {
   const config = require(configFile)
-  const outDir = path.resolve(rootDir, config.outDir || 'dist')
+  const out = config.outDir || 'dist'
+  const outDir = path.resolve(rootDir, out)
 
   const rollupConfigs = config.components.map(c => createConfig(path.resolve(rootDir, c.entry), c.name, outDir, config))
 
@@ -18,7 +19,7 @@ module.exports = function (rootDir, configFile, cb) {
     await bundle.write(rollupConfig.output)
     const component = config.components[rollupConfigs.indexOf(rollupConfig)]
 
-    clog(`%ccreated %c${component.name}/index.js`, 'green', 'bold')
+    clog(`%ccreated %c${path.posix.join(out, component.name)}/index.js`, 'green', 'bold')
 
   }, cb)
 }

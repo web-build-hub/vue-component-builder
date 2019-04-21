@@ -20,18 +20,14 @@ module.exports = function createConfig(
       return EXTERNAL.test(id) || /node_modules/.test(id) || (opts.external && opts.external.apply(null, arguments))
     },
     output: {
-      format: 'esm',
-      file: path.join(outDir, name, 'index.js')
+      format: 'commonjs',
+      file: path.join(outDir, name, 'index.js'),
+      ...opts.output
     },
     plugins: [
-      postcss({
-        extract: path.join(outDir, name, 'index.css'),
-        extensions: ['scss', 'css'],
-        plugins: [
-          // autoprefixer({browsers: ['> 1%', 'last 2 versions', 'not ie <= 8']})
-          autoprefixer()
-        ]
-      }),
+      // 解析 .vue 文件
+      vue({ css: false }),
+
       babel({
         runtimeHelpers: true,
         babelrc: false,
@@ -48,8 +44,15 @@ module.exports = function createConfig(
       resolve(),
       // 将 module.exports 编译成 export default
       commonjs(),
-      // 解析 .vue 文件
-      vue({ css: false }),
+
+      postcss({
+        extract: path.join(outDir, name, 'index.css'),
+        extensions: ['scss', 'css'],
+        plugins: [
+          // autoprefixer({browsers: ['> 1%', 'last 2 versions', 'not ie <= 8']})
+          autoprefixer()
+        ]
+      }),
     ]
   }
 }
