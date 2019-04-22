@@ -70,10 +70,9 @@ function makeEntry(types) {
       map[pascalCase(t.name)] = `${t.name}/~default`
     }
     t.variables.forEach(v => variables.push(v))
-    if (variables.length) {
-      content.push(`export { ${variables.join(', ')} } from './${t.name}/index'`)
-      variables.forEach(v => map[v] = `${t.name}/`)
-    }
+    content.push(`export { ${variables.join(', ')} } from './${t.name}/index'`)
+
+    t.variables.forEach(v => map[v] = `${t.name}/`)
   })
 
   return {

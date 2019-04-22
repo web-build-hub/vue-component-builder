@@ -33,6 +33,10 @@
     "rollup-plugin-vue": "~5.0.0",
     "vue-template-compiler": "~2.6.10"
   },
+  "publishConfig": {
+    "access": "public",
+    "registry": "https://registry.npmjs.org/"
+  },
   "devDependencies": {
     "@babel/runtime": "~7.4.3",
     "core-js": "~2.6.5",
