@@ -54,23 +54,30 @@ module.exports = function (rootDir, configFile, cb) {
     const res = makeEntry(types)
     fs.writeFileSync(path.join(outDir, 'index.js'), res.esnext)
     fs.writeFileSync(path.join(outDir, 'index.d.ts'), res.dts)
+    fs.writeFileSync(path.join(outDir, 'index.map.json'), JSON.stringify(res.map, null, 2))
     cb()
   })
 }
 
 function makeEntry(types) {
   const content = []
+  const map = {}
 
   types.forEach(t => {
     const variables = []
-    if (t.hasDefault) variables.push(`default as ${pascalCase(t.name)}`)
+    if (t.hasDefault) {
+      variables.push(`default as ${pascalCase(t.name)}`)
+      map[pascalCase(t.name)] = `${t.name}/~default`
+    }
     t.variables.forEach(v => variables.push(v))
     if (variables.length) {
       content.push(`export { ${variables.join(', ')} } from './${t.name}/index'`)
+      variables.forEach(v => map[v] = `${t.name}/`)
     }
   })
 
   return {
+    map,
     esnext: array2content(content),
     dts: array2content(content)
   }
