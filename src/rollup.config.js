@@ -22,12 +22,10 @@ module.exports = function createConfig(
     output: {
       format: 'commonjs',
       file: path.join(outDir, name, 'index.js'),
+      // dir: path.join(outDir, name),
       ...opts.output
     },
     plugins: [
-      // 解析 .vue 文件
-      vue({ css: false }),
-
       babel({
         runtimeHelpers: true,
         babelrc: false,
@@ -40,10 +38,14 @@ module.exports = function createConfig(
           [require.resolve('@babel/preset-env'), { modules: false, useBuiltIns: 'usage', corejs: 2 }]
         ]
       }),
+
       // 解析 node_modules 中的模块
       resolve(),
       // 将 module.exports 编译成 export default
       commonjs(),
+
+      // 解析 .vue 文件
+      vue({ css: false }),
 
       postcss({
         extract: path.join(outDir, name, 'index.css'),
