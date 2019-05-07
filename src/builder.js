@@ -33,6 +33,10 @@ module.exports = function (rootDir, configFile, cb) {
           chunkOrAsset.code = chunkOrAsset.code.replace(/^(['"]use strict['"];)?/, `$1\nrequire('./${relative}');`)
         }
 
+        if (chunkOrAsset.code) {
+          chunkOrAsset.code = chunkOrAsset.code.replace(/^(\s*)const\b/gm, '$1var')
+        }
+
         fs.ensureDirSync(path.dirname(chunkFile))
         fs.writeFileSync(chunkFile, chunkOrAsset.code || chunkOrAsset.source)
       }
