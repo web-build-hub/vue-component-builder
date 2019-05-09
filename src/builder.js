@@ -25,7 +25,6 @@ module.exports = function (rootDir, configFile, cb) {
       const outputDir = rollupConfig.output.file ? path.dirname(rollupConfig.output.file) : outDir
 
       for (const chunkOrAsset of output) {
-
         const chunkFile = path.join(outputDir, chunkOrAsset.fileName)
         if (styleAsset && !chunkOrAsset.isAsset) {
           const styleFile = path.join(outputDir, styleAsset.fileName)

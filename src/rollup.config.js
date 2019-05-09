@@ -3,8 +3,11 @@ const resolve = require('rollup-plugin-node-resolve')
 const commonjs = require('rollup-plugin-commonjs')
 const babel = require('rollup-plugin-babel')
 const postcss = require('rollup-plugin-postcss')
+const url = require('rollup-plugin-url')
+const postcssUrl = require('postcss-url')
 const autoprefixer = require('autoprefixer')
 const path = require('path')
+const fs = require('fs-extra')
 
 const EXTERNAL = /^(vue|core-js|@babel\/runtime|vue-runtime-helpers|regenerator-runtime)(\/|$)/
 
@@ -52,9 +55,28 @@ module.exports = function createConfig(
         extensions: ['scss', 'css'],
         plugins: [
           // autoprefixer({browsers: ['> 1%', 'last 2 versions', 'not ie <= 8']})
-          autoprefixer()
+          autoprefixer(),
+          postcssUrl({
+            // basePath:
+            url: 'copy',
+            filter: '**/*.{gif,png,jpg,jpeg,svg}',
+            basePath: path.dirname(entry),
+            assetsPath: path.join(outDir, name),
+            useHash: false,
+            url(asset, dir) {
+              if (fs.existsSync(asset.absolutePath) && asset.absolutePath.includes(path.dirname(entry))) {
+                const out = path.join(outDir, name, ...asset.originUrl.split('/'))
+                fs.ensureDirSync(path.dirname(out))
+                fs.copyFileSync(asset.absolutePath, out)
+              }
+              return asset.originUrl
+            }
+          }),
         ]
       }),
+
+      url({ limit: 1024, fileName: '[name][extname]' }),
+
     ],
     ...(opts.rollup ? opts.rollup(...arguments) : {})
   }
