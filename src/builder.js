@@ -50,7 +50,7 @@ module.exports = function (rootDir, configFile, cb) {
 
     const type = {name: component.name, hasDefault: false, variables: []}
     types.push(type)
-    makeTypes(file, type)
+    makeTypes(rollupConfig.input, file.replace(/\.js/, '.d.ts'), type)
     clog(`%ccreated %c${path.posix.join(out, component.name)}/index.js, index.d.ts`, 'green', 'bold')
   }, (err) => {
     if (err) return cb(err)
@@ -85,18 +85,28 @@ function makeEntry(types) {
   }
 }
 
-function makeTypes(file, type) {
-  const dtsFile = file.replace(/\.js/, '.d.ts')
+function makeTypes(file, dtsFile, type) {
   let dtsContent = []
-  const {nodes, warnings} = parse(fs.readFileSync(file).toString(), {includes: ['exports']})
+  const {nodes, warnings} = parse(fs.readFileSync(file).toString(), {includes: ['export']})
   if (warnings.length) warnings.forEach(w => clog('%c ⚠️' + w, 'yellow.high'))
+
   nodes.forEach(n => {
-    if (n.type === NODE_TYPE.EXPORTS_DEFAULT) {
-      dtsContent.push(`export default any;`)
+    if (n.type === NODE_TYPE.EXPORT_DEFAULT) {
       type.hasDefault = true
-    } else if (n.type === NODE_TYPE.EXPORTS_VARIABLE) {
-      type.variables.push(n.variable)
-      dtsContent.push(`export declare const ${n.variable}: any;`)
+      dtsContent.push(`export default any;`)
+    } else if (n.type === NODE_TYPE.EXPORT_ASSIGN) {
+      type.variables.push(n.exported)
+      dtsContent.push(`export declare const ${n.exported}: any;`)
+    } else if (n.type === NODE_TYPE.EXPORT_NAMED_FROM || n.type === NODE_TYPE.EXPORT_NAMED) {
+      n.variables.forEach(v => {
+        if (v.exported === 'default') {
+          type.hasDefault = true
+          dtsContent.push(`export default any;`)
+        } else {
+          type.variables.push(v.exported)
+          dtsContent.push(`export declare const ${v.exported}: any;`)
+        }
+      })
     }
   })
 
