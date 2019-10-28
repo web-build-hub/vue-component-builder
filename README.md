@@ -19,6 +19,8 @@ module.exports = {
   ],
   // 是否在 js 中 require 对应的 css 文件
   requireCss: true,
+  // postcss-px-to-viewport 插件配置
+  px2viewport: {},
   // rollup 的 output 配置（可选）
   output: {},
   // 生成动态 rollup 配置（可选）
