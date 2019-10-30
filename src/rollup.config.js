@@ -10,7 +10,7 @@ const path = require('path')
 const fs = require('fs-extra')
 const px2viewport = require('postcss-px-to-viewport')
 
-const EXTERNAL = /^(vue|core-js|@babel\/runtime|vue-runtime-helpers|regenerator-runtime)(\/|$)/
+const EXTERNAL = /^(vue|core-js|@babel\/runtime|vue-runtime-helpers|regenerator-runtime|svga.lite)(\/|$)/
 
 module.exports = function createConfig(
   entry,
@@ -25,7 +25,7 @@ module.exports = function createConfig(
     postcssUrl({
       // basePath:
       url: 'copy',
-      filter: '**/*.{gif,png,jpg,jpeg,svg}',
+      filter: '**/*.{gif,png,jpg,jpeg,svg,svga}',
       basePath: path.dirname(entry),
       assetsPath: path.join(outDir, name),
       useHash: false,
@@ -81,7 +81,7 @@ module.exports = function createConfig(
         plugins: postcssPlugins,
       }),
 
-      url({ limit: 1024, fileName: '[name][extname]' }),
+      url({ limit: 1024, fileName: '[name][extname]', include: ['**/*.{gif,png,jpg,jpeg,svg,svga}'] }),
 
     ],
     ...(opts.rollup ? opts.rollup(...arguments) : {})
