@@ -81,7 +81,7 @@ module.exports = function createConfig(
         plugins: postcssPlugins,
       }),
 
-      url({ limit: 1024, fileName: '[name][extname]', include: ['**/*.{gif,png,jpg,jpeg,svg,svga}'] }),
+      url({ limit: opts.urlLimit || 1024, fileName: '[name][extname]', include: ['**/*.{gif,png,jpg,jpeg,svg,svga}'] }),
 
     ],
     ...(opts.rollup ? opts.rollup(...arguments) : {})

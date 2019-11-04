@@ -21,6 +21,8 @@ module.exports = {
   requireCss: true,
   // postcss-px-to-viewport 插件配置
   px2viewport: {},
+  // 图片 inline
+  urlLimit: 1024,
   // rollup 的 output 配置（可选）
   output: {},
   // 生成动态 rollup 配置（可选）
