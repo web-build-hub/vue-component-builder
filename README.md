@@ -29,7 +29,12 @@ module.exports = {
   // 生成动态 rollup 配置（可选）
   rollup(entry, name, outDir, opts) {
     return {...}
-  }
+  },
+  // 生成 index.js index.d.ts index.map.json
+  makeEntry(res, { components }) {
+    // res.esnext res.dts  res.map
+    return res
+  },
 }
 
 ```
