@@ -12,6 +12,8 @@ module.exports = function (rootDir, configFile, cb) {
   const outDir = path.resolve(rootDir, out)
   const types = []
 
+  if (config.emptyOutDir) fs.emptyDirSync(outDir)
+
   const rollupConfigs = config.components.map(c => createConfig(path.resolve(rootDir, c.entry), c.name, outDir, config))
 
   async.eachLimit(rollupConfigs, 4, async (rollupConfig) => {
@@ -54,7 +56,7 @@ module.exports = function (rootDir, configFile, cb) {
     clog(`%ccreated %c${path.posix.join(out, component.name)}/index.js, index.d.ts`, 'green', 'bold')
   }, (err) => {
     if (err) return cb(err)
-    const res = makeEntry(types)
+    const res = makeEntry(types, config)
     fs.writeFileSync(path.join(outDir, 'index.js'), res.esnext)
     fs.writeFileSync(path.join(outDir, 'index.d.ts'), res.dts)
     fs.writeFileSync(path.join(outDir, 'index.map.json'), JSON.stringify(res.map, null, 2))
@@ -62,7 +64,7 @@ module.exports = function (rootDir, configFile, cb) {
   })
 }
 
-function makeEntry(types) {
+function makeEntry(types, config) {
   const content = []
   const map = {}
 
@@ -73,16 +75,24 @@ function makeEntry(types) {
       map[pascalCase(t.name)] = `${t.name}/~default`
     }
     t.variables.forEach(v => variables.push(v))
-    content.push(`export { ${variables.join(', ')} } from './${t.name}/index'`)
+    content.push(`import { ${variables.join(', ')} } from './${t.name}/index'`)
 
     t.variables.forEach(v => map[v] = `${t.name}/`)
   })
 
-  return {
+  const components = Object.keys(map)
+  content.push(`export { ${components.join(', ')} }`)
+
+  let res = {
     map,
     esnext: array2content(content),
     dts: array2content(content)
   }
+
+  if (config.makeEntry) {
+    return config.makeEntry(res, { components })
+  }
+  return res
 }
 
 function makeTypes(file, dtsFile, type) {

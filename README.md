@@ -9,6 +9,7 @@
 
 module.exports = {
   outDir: 'dist',
+  emptyOutDir: false,
   external: (id, parentId, isResolved) => {
     return false
   },
