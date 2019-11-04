@@ -1,6 +1,6 @@
 {
   "name": "vue-component-builder",
-  "version": "1.4.1",
+  "version": "1.5.0",
   "description": "build vue component",
   "bin": "src/bin.js",
   "main": "src/builder.js",
